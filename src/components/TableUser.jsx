@@ -3,22 +3,21 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllUsers } from "../redux/action/actions";
 
 const TableUser = () => {
-  const [listUser, setListUser] = useState([]);
-  const fetchAllUsers = async () => {
-    let res = await axios.get("http://localhost:8080/users/all");
-    let data = res ? res.data : [];
-    console.log(">>> check data", data);
-    setListUser(data);
-  };
+  // const [listUser, setListUser] = useState([]);
+  const dispatch = useDispatch();
+  const listUser = useSelector((state) => {
+    return state.user.listUsers;
+  });
   const handleDeleteUser = async (idUser) => {
-    await axios.post(`http://localhost:8080/users/delete/${idUser}`)
-    fetchAllUsers();
+    await axios.post(`http://localhost:8080/users/delete/${idUser}`);
     return;
   };
   useEffect(() => {
-    fetchAllUsers();
+    dispatch(fetchAllUsers());
   }, []);
   return (
     <div>
