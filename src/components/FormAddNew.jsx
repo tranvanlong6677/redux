@@ -8,13 +8,13 @@ const FormAddNew = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const dispatch = useDispatch();
+  const isCreating = useSelector((state) => state.user.isCreating);
   const handleCreateNewUser = () => {
     dispatch(createNewUserRedux(email, password, username));
     setEmail("");
     setPassword("");
     setUsername("");
   };
-  const isCreating = useSelector((state) => state.user.isCreating);
   return (
     <div className="my-5">
       <h1>Form Add New User</h1>

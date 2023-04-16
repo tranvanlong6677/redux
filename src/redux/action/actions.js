@@ -1,4 +1,3 @@
-// Chứa những hàm (actions) để thao tác với biến
 import axios from "axios";
 
 import {
@@ -10,6 +9,9 @@ import {
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
   CREATE_USER_ERROR,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_ERROR,
 } from "./types";
 
 export const increaseCounter = () => {
@@ -26,6 +28,7 @@ export const decreaseCounter = () => {
   };
 };
 
+// fetch users
 export const fetchAllUsers = () => {
   return async (dispatch, getState) => {
     dispatch(fetchUsersRequest());
@@ -57,6 +60,7 @@ export const fetchUsersError = () => {
   };
 };
 
+// create user
 export const createNewUserRedux = (email, password, username) => {
   return async (dispatch, getState) => {
     dispatch(createUsersRequest());
@@ -66,7 +70,6 @@ export const createNewUserRedux = (email, password, username) => {
         password,
         username,
       });
-      console.log(">>> check res", res);
       if (res && res.data.errCode === 0) {
         dispatch(createUsersSuccess());
         dispatch(fetchAllUsers());
@@ -78,7 +81,6 @@ export const createNewUserRedux = (email, password, username) => {
     }
   };
 };
-
 export const createUsersRequest = () => {
   return {
     type: CREATE_USER_REQUEST,
@@ -92,5 +94,37 @@ export const createUsersSuccess = () => {
 export const createUsersError = () => {
   return {
     type: CREATE_USER_ERROR,
+  };
+};
+
+// delete user
+export const deleteUserRedux = (id) => {
+  return async (dispatch, getState) => {
+    dispatch(deleteUsersRequest());
+    try {
+      let res = await axios.post(`http://localhost:8080/users/delete/${id}`);
+      if (res && res.data.errCode === 0) {
+        dispatch(deleteUsersSuccess());
+        dispatch(fetchAllUsers());
+      }
+    } catch (error) {
+      dispatch(deleteUsersError());
+    }
+  };
+};
+
+export const deleteUsersRequest = () => {
+  return {
+    type: DELETE_USER_REQUEST,
+  };
+};
+export const deleteUsersSuccess = () => {
+  return {
+    type: DELETE_USER_SUCCESS,
+  };
+};
+export const deleteUsersError = () => {
+  return {
+    type: DELETE_USER_ERROR,
   };
 };

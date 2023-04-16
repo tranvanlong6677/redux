@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllUsers } from "../redux/action/actions";
+import { fetchAllUsers, deleteUserRedux } from "../redux/action/actions";
 
 const TableUser = () => {
   // const [listUser, setListUser] = useState([]);
@@ -20,8 +20,7 @@ const TableUser = () => {
   });
 
   const handleDeleteUser = async (idUser) => {
-    await axios.post(`http://localhost:8080/users/delete/${idUser}`);
-    return;
+    dispatch(deleteUserRedux(idUser));
   };
   useEffect(() => {
     dispatch(fetchAllUsers());
@@ -40,13 +39,17 @@ const TableUser = () => {
         <tbody>
           {isError === true ? (
             <>
-              <span>Something wrongs, please try again</span>
+              <tr>
+                <td colSpan={12}>Something wrongs, please try again</td>
+              </tr>
             </>
           ) : (
             <>
               {isLoading === true ? (
                 <>
-                  <span>Loading</span>
+                  <tr>
+                    <td colSpan={12}>Loading</td>
+                  </tr>
                 </>
               ) : (
                 <>

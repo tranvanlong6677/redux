@@ -5,6 +5,9 @@ import {
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
   CREATE_USER_ERROR,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_ERROR,
 } from "../action/types";
 
 const INITIAL_STATE = {
@@ -58,6 +61,9 @@ const userReducer = (state = INITIAL_STATE, action) => {
         isCreating: false,
       };
 
+    case DELETE_USER_REQUEST:
+    case DELETE_USER_SUCCESS:
+    case DELETE_USER_ERROR:
     default:
       return state;
   }
