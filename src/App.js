@@ -7,9 +7,7 @@ function App(props) {
   const valueCount = useSelector((state) => {
     return state.counter.count;
   });
-  const dataListUsers = useSelector((state) => {
-    
-  })
+  const dataListUsers = useSelector((state) => {});
   const dispatch = useDispatch();
   // Event handler
   const handleIncrement = () => {
@@ -18,7 +16,6 @@ function App(props) {
   const fetchAllUsers = async () => {
     const res = await axios.get("http://localhost:8080/users/all");
     const data = res ? res.data : [];
-    console.log(">>> check data", data);
   };
   useEffect(() => {
     fetchAllUsers();

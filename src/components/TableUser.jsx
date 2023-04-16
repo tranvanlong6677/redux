@@ -12,6 +12,13 @@ const TableUser = () => {
   const listUser = useSelector((state) => {
     return state.user.listUsers;
   });
+  const isLoading = useSelector((state) => {
+    return state.user.isLoading;
+  });
+  const isError = useSelector((state) => {
+    return state.user.isError;
+  });
+
   const handleDeleteUser = async (idUser) => {
     await axios.post(`http://localhost:8080/users/delete/${idUser}`);
     return;
@@ -31,28 +38,40 @@ const TableUser = () => {
           </tr>
         </thead>
         <tbody>
-          {listUser &&
-            listUser.length > 0 &&
-            listUser.map((item, index) => {
-              return (
-                <tr key={`${index}-item`}>
-                  <td>{item?.id}</td>
-                  <td>{item?.email}</td>
-                  <td>{item?.username}</td>
-                  <td>
-                    <Button variant="primary" className="mx-3">
-                      Edit
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => handleDeleteUser(item.id)}
-                    >
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
+          {isError === true ? (
+            <>Something wrongs, please try again</>
+          ) : (
+            <>
+              {isLoading === true ? (
+                <>Loading</>
+              ) : (
+                <>
+                  {listUser &&
+                    listUser.length > 0 &&
+                    listUser.map((item, index) => {
+                      return (
+                        <tr key={`${index}-item`}>
+                          <td>{item?.id}</td>
+                          <td>{item?.email}</td>
+                          <td>{item?.username}</td>
+                          <td>
+                            <Button variant="primary" className="mx-3">
+                              Edit
+                            </Button>
+                            <Button
+                              variant="danger"
+                              onClick={() => handleDeleteUser(item.id)}
+                            >
+                              Delete
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </>
+              )}
+            </>
+          )}
         </tbody>
       </Table>
     </div>
