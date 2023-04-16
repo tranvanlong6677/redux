@@ -39,11 +39,15 @@ const TableUser = () => {
         </thead>
         <tbody>
           {isError === true ? (
-            <>Something wrongs, please try again</>
+            <>
+              <span>Something wrongs, please try again</span>
+            </>
           ) : (
             <>
               {isLoading === true ? (
-                <>Loading</>
+                <>
+                  <span>Loading</span>
+                </>
               ) : (
                 <>
                   {listUser &&
